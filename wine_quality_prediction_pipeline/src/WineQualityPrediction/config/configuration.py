@@ -1,7 +1,8 @@
 from src.WineQualityPrediction.constants import *
 from src.WineQualityPrediction.utils.common import read_yaml, create_directories
 from src.WineQualityPrediction.entity.config_entity import (DataIngestionConfig, DataValidationConfig, 
-                                                            DataTransformationConfig, ModelTrainerConfig)
+                                                            DataTransformationConfig, ModelTrainerConfig, 
+                                                            ModelEvaluationConfig)
 
 class ConfigurationManager:
     def __init__(self,
@@ -70,3 +71,21 @@ class ConfigurationManager:
             target_column = schema.name   
         )
         return model_trainer_config
+    
+    def get_model_evaluation_config(self) -> ModelEvaluationConfig:
+        config = self.config.model_evaluation
+        params = self.params.ElasticNet
+        schema = self.schema.TARGET_COLUMN
+
+        create_directories([config.root_dir])
+
+        model_evaluation_config=ModelEvaluationConfig(
+            root_dir = config.root_dir,
+            test_data_path=config.test_data_path,
+            model_path = config.model_path,
+            all_params=params,
+            metric_file_name = config.metric_file_name,
+            target_column = schema.name,
+            mlflow_uri="https://dagshub.com/sanjaynreddy96/mlops-projects.mlflow"
+        )
+        return model_evaluation_config
