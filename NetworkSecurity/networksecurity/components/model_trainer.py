@@ -26,15 +26,10 @@ from urllib.parse import urlparse
 import mlflow
 
 import dagshub
-
-# Get the DAGSHUB_TOKEN from environment variables
-DAGSHUB_TOKEN = os.getenv("DAGSHUB_TOKEN")
-
 dagshub.init(
     repo_owner = 'sanjaynarendra', 
     repo_name = 'mlops-projects', 
-    mlflow = True,
-    token = DAGSHUB_TOKEN 
+    mlflow = True
 )
 
 class ModelTrainer:
